@@ -133,6 +133,8 @@ Or without newlines:
 bWF$k$nc$~$GllQ1RGe0IxSU5EbkVTNV8hc18$e$0X1BSSVY$b$0$)$N2VfTWE3$!$dDNSX$x$$/$zgz$r$dHdFM25fQV9QRVIkb$+$25$O$fYU5EX3RIRV8zWUU1X1$K$dpN0h$m$fd0$J$hJY0$3$hfdEhleV93M3JFX0Jvck59
 ```
 
+## Decrypting the cryptic message
+
 Hmm... interesting! Looks like it might be some kind of encoding. Of course, we probably need to splice them together in the correct order to reveal any message. 
 
 Should we do it in the order of the numbers in the filename, or in the order that the images fit together? Well, I checked and it turns out they are the same!
@@ -163,6 +165,8 @@ bWFncGllQ1RGew==
 Beginning of our encoded string
 bWF$k$nc$~$GllQ1RGe
 ```
+
+## Having an epiphany
 
 Notice that they are very similar. The `==` is simply base64 padding so that can be disregarded. The only differences I can see at the beginning are that `$k$` and `$~$` are not present in the correct string… wait a second!
 

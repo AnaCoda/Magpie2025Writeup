@@ -18,6 +18,10 @@
 curl -O https://<linkto>/security_footage.zip
 ```
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4fa8419d-2683-4de4-acb1-5d7fab580a07" width="20%">
+</p>
+
 First, let’s check if it really is a zip file. After all, CTFs often try to trick you with file extensions... especially in the forensics section.
 
 ```sh
@@ -73,13 +77,17 @@ Putting that into a base64 decoder such as at [https://www.base64decode.org/](ht
 
 Okay, looks like maybe it’s not base64 :(. Even after using cipher identifiers such as at [https://www.dcode.fr/cipher-identifier](https://www.dcode.fr/cipher-identifier), I was not able to decode that string into anything meaningful.
 
-As usual with forensics CTF challenges, we resort to **throwing the kitchen sink at it**, the kitchen sink being a bunch of tools which we might find at places like [https://github.com/gregalletti/CTF_tools](https://github.com/gregalletti/CTF_tools), or regular Linux commands that show us more information.
+As usual with forensics CTF challenges, we resort to **throwing everything but the kitchen sink at it**, such as a bunch of tools which we might find at places like [https://github.com/gregalletti/CTF_tools](https://github.com/gregalletti/CTF_tools), or regular Linux commands that show us more information.
+
+<p align="center">
+  <img width="490" alt="image" src="https://github.com/user-attachments/assets/4e0e4fac-ca1b-4b0b-a990-b12a700e3d68" />
+</p>
 
 Using the `stat` command did not show anything useful, only that all the files were created at the same time. I also tried the tool `binwalk` (didn’t reveal anything) which in hindsight was a bit silly since it's for finding embedded files in binary files, which these aren’t. However, desperate times lead to desperate measures, and for some quick things, it's worth trying anyway.
 
 At this point, I tried all the tools I knew off the top of my head and started looking at steganography resources like [https://0xrick.github.io/lists/stego/](https://0xrick.github.io/lists/stego/). I read a bit about each resource and noticed that `steghide` is able to hide data quite well in various image and audio files, including JPEG files!
 
-I could also have used the online tool [https://www.aperisolve.com/](https://www.aperisolve.com/) which itself is a bit of a kitchen sink and also runs `steghide`. I believe a combination is best, to help you save time but also not miss tools that may not be included.
+I could also have used the online tool [https://www.aperisolve.com/](https://www.aperisolve.com/) which itself is a lot of things (but not the kitchen sink) and also runs `steghide`. I believe a combination is best, to help you save time but also not miss tools that may not be included.
 
 So, I try out `steghide` and lo and behold!
 
@@ -129,7 +137,7 @@ Hmm... interesting! Looks like it might be some kind of encoding. Of course, we 
 
 Should we do it in the order of the numbers in the filename, or in the order that the images fit together? Well, I checked and it turns out they are the same!
 
-I’m very thankful for moments like these because it means I don't have to try every future thing on 2+ different paths. Since cat reads files sequentially, it already put them in order, so let's try to decipher that string. 
+I’m very thankful for moments like these because it means I don't have to try every future thing on 2+ different paths. Since `cat` reads files sequentially, it already put them in order, so let's try to decipher that string. 
 
 Putting it into online cipher identifiers (as mentioned previously) did not reveal anything. One thought it was a Crypt() hash, but it seems to be too long for a hash. Another was unable to identify it.
 
@@ -146,7 +154,7 @@ Okay! It’s super broken, but clearly this is related to base64. My first insti
 
 **Next idea: Compare it to a similar, valid base64 string.**
 
-We know that flags usually start with magpieCTF{ and here, the “mad” at the beginning probably should become part of that. So, let’s encode magpieCTF{ to base64 and compare it:
+We know that flags usually start with `magpieCTF{` and here, the “mad” at the beginning probably should become part of that. So, let’s encode magpieCTF{ to base64 and compare it to the beginning of what we have:
 
 ```
 magpieCTF{ in base64
@@ -165,3 +173,8 @@ And we get…
 `magpieCTF{B1INDnES5_!s_4_PRIV47e_Ma7t3R_83twE3n_A_PER$on_aND_tHE_3YE5_Wi7H_wHIcH_tHey_w3rE_BorN}`
 
 I submit the flag to make sure its correct (what if it was a super elaborate red herring??), enjoy my new points, and consume another slice of pizza!
+
+<p align="center">
+  <img width="300" alt="image" src="https://github.com/user-attachments/assets/01a6e30e-ba04-402d-ac65-e906771cb4fc" />
+</p>
+
